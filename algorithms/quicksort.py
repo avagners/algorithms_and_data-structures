@@ -1,4 +1,7 @@
-def quicksort(array):
+from typing import List
+
+
+def quicksort(array: list[int]) -> List[int]:
     if len(array) < 2:
         return array
     else:
@@ -8,12 +11,12 @@ def quicksort(array):
         return quicksort(less) + [pivot] + quicksort(greater)
 
 
-def read_input():
+def read_input() -> List[int]:
     list_str = input().split()
     list_num = [int(i) for i in list_str]
     return list_num
 
 
 if __name__ == '__main__':
-    list_num = read_input()
-    print(quicksort(list_num))
+    numbers: list[int] = read_input()
+    print(quicksort(numbers))
