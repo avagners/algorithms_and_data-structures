@@ -43,7 +43,8 @@ class LinkedList:
                     self.head = node.next
                     if not all:
                         break
-            previous = node
+            else:
+                previous = node
             node = node.next
 
     def clean(self):
