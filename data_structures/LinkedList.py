@@ -35,6 +35,8 @@ class LinkedList:
         previous = None
         while node:
             if node.value == val:
+                if node is self.tail:
+                    self.tail = previous
                 if previous:
                     previous.next = node.next
                     if not all:
@@ -50,6 +52,7 @@ class LinkedList:
     def clean(self):
         while self.head:
             self.head = self.head.next
+        self.tail = None
 
     def find_all(self, val):
         node = self.head
@@ -78,6 +81,10 @@ class LinkedList:
         if node is None:
             new_node.next = self.head
             self.head = new_node
+            if self.tail is None:
+                self.tail = new_node
         else:
             new_node.next = node.next
             node.next = new_node
+            if node is self.tail:
+                self.tail = new_node
