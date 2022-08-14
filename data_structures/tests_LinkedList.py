@@ -10,8 +10,8 @@ class TestLinkedListOneItem(unittest.TestCase):
     def setUp(self):
         self.s_list = LinkedList()
         self.number = random.randint(0, 100)
-        self.new_node = Node(self.number)
-        self.s_list.add_in_tail(self.new_node)
+        self.node = Node(self.number)
+        self.s_list.add_in_tail(self.node)
 
     def test_one_item_check_head_tail_len(self):
         self.assertEqual(self.s_list.len(), 1)
@@ -40,24 +40,27 @@ class TestLinkedListOneItem(unittest.TestCase):
         find_list = self.s_list.find_all(self.number)
         self.assertEqual(self.s_list.len(), 1)
         self.assertEqual(len(find_list), 1)
-        self.assertEqual(find_list, [self.new_node])
+        self.assertEqual(find_list, [self.node])
 
     def test_one_item_len(self):
         self.assertEqual(self.s_list.len(), 1)
 
     def test_one_item_insert(self):
-        new_node = random.randint(0, 100)
-        self.s_list.insert(self.number, new_node)
+        new_node = Node(random.randint(0, 100))
+        self.s_list.insert(self.node, new_node)
         self.assertEqual(self.s_list.len(), 2)
-        self.assertEqual(self.s_list.head.value, self.number)
-        self.assertEqual(self.s_list.tail.value, new_node)
+        self.assertEqual(self.s_list.head, self.node)
+        self.assertEqual(self.s_list.tail, new_node)
 
     def test_one_item_insert_first_place(self):
-        new_node = random.randint(0, 100)
+        head = self.s_list.head
+        tail = self.s_list.tail
+        new_node = Node(random.randint(0, 100))
         self.s_list.insert(None, new_node)
         self.assertEqual(self.s_list.len(), 2)
-        self.assertEqual(self.s_list.head.value, new_node)
-        self.assertEqual(self.s_list.tail.value, self.number)
+        self.assertNotEqual(self.s_list.head, head)
+        self.assertEqual(self.s_list.head, new_node)
+        self.assertEqual(self.s_list.tail, tail)
 
 
 class TestLinkedListEmpty(unittest.TestCase):
@@ -99,11 +102,11 @@ class TestLinkedListEmpty(unittest.TestCase):
         self.assertEqual(self.s_list.len(), 0)
 
     def test_empty_insert(self):
-        new_node = self.number
+        new_node = Node(self.number)
         self.s_list.insert(None, new_node)
         self.assertEqual(self.s_list.len(), 1)
-        self.assertEqual(self.s_list.head.value, new_node)
-        self.assertEqual(self.s_list.tail.value, new_node)
+        self.assertEqual(self.s_list.head, new_node)
+        self.assertEqual(self.s_list.tail, new_node)
 
 
 class TestLinkedListManyItems(unittest.TestCase):
@@ -137,14 +140,14 @@ class TestLinkedListManyItems(unittest.TestCase):
         self.assertEqual(self.s_list.tail, self.nodes_list[-1])
 
     def test_many_items_delete_middle_node(self):
-        head_value = self.s_list.head.value
-        tail_value = self.s_list.tail.value
-        self.s_list.insert(head_value, 101)  # added in middle uniq value
+        head = self.s_list.head
+        tail = self.s_list.tail
+        self.s_list.insert(head, Node(101))  # added in middle uniq value
         self.len_nodes_list += 1
         self.s_list.delete(101)
         self.assertEqual(self.s_list.len(), self.len_nodes_list - 1)
-        self.assertEqual(self.s_list.head.value, head_value)
-        self.assertEqual(self.s_list.tail.value, tail_value)
+        self.assertEqual(self.s_list.head, head)
+        self.assertEqual(self.s_list.tail, tail)
 
     def test_many_items_delete_all_first_item(self):
         head_value = self.s_list.head.value
@@ -199,33 +202,28 @@ class TestLinkedListManyItems(unittest.TestCase):
     def test_many_items_insert_first_place(self):
         head = self.s_list.head
         tail = self.s_list.tail
-        new_node = random.randint(0, 100)
-        self.s_list.insert(101, new_node)
+        new_node = Node(random.randint(0, 100))
+        self.s_list.insert(None, new_node)
         self.assertEqual(self.s_list.len(), self.len_nodes_list + 1)
-        self.assertNotEqual(self.s_list.head.value, head)
-        self.assertEqual(self.s_list.head.value, new_node)
+        self.assertNotEqual(self.s_list.head, head)
+        self.assertEqual(self.s_list.head, new_node)
         self.assertEqual(self.s_list.tail, tail)
 
     def test_many_items_insert_last_place(self):
         head = self.s_list.head
         tail = self.s_list.tail
-        self.s_list.add_in_tail(Node(101))  # added in tail uniq value
-        self.assertEqual(self.s_list.tail.value, 101)
-        self.len_nodes_list += 1
-        new_node = random.randint(0, 100)
-        self.s_list.insert(101, new_node)
+        new_node = Node(random.randint(0, 100))
+        self.s_list.insert(self.nodes_list[-1], new_node)
         self.assertEqual(self.s_list.len(), self.len_nodes_list + 1)
         self.assertNotEqual(self.s_list.tail, tail)
         self.assertEqual(self.s_list.head, head)
-        self.assertEqual(self.s_list.tail.value, new_node)
+        self.assertEqual(self.s_list.tail, new_node)
 
     def test_many_items_insert_middle_place(self):
         head = self.s_list.head
         tail = self.s_list.tail
-        self.s_list.insert(head.value, 101)  # added in middle uniq value
-        self.len_nodes_list += 1
-        new_node = random.randint(0, 100)
-        self.s_list.insert(101, new_node)
+        new_node = Node(random.randint(0, 100))
+        self.s_list.insert(self.nodes_list[2], new_node)
         self.assertEqual(self.s_list.len(), self.len_nodes_list + 1)
         self.assertEqual(self.s_list.head, head)
         self.assertEqual(self.s_list.tail, tail)
