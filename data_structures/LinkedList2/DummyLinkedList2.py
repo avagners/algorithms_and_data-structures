@@ -49,7 +49,7 @@ class DummyLinkedList2:
 
     def delete(self, val, all=False):
         node = self.head.next
-        while node.value:
+        while type(node) is Node:
             if node.value != val:
                 node = node.next
                 continue
@@ -67,19 +67,19 @@ class DummyLinkedList2:
             self.head.next = newNode
             newNode.prev = self.head
             return
-        while node.value:
+        while type(node) is Node:
             if node == afterNode:
                 break
             node = node.next
-        if node is None:
+        if node.value is None:
             self.tail.prev.next = newNode
             newNode.prev = self.tail.prev
             self.tail.prev = newNode
             newNode.next = self.tail
         else:
-            newNode.next = self.tail
-            self.tail.prev = newNode
             newNode.prev = node
+            newNode.next = node.next
+            node.next.prev = newNode
             node.next = newNode
 
     def add_in_head(self, newNode):
