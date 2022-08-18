@@ -26,13 +26,13 @@ class DummyLinkedList2:
 
     def print_all_nodes(self):
         node = self.head.next
-        while node.value:
+        while type(node) is Node:
             print(node.value, end=' => ')
             node = node.next
 
     def find(self, val):
         node = self.head.next
-        while node.value:
+        while type(node) is Node:
             if node.value == val:
                 return node
             node = node.next
@@ -41,7 +41,7 @@ class DummyLinkedList2:
     def find_all(self, val):
         node = self.head.next
         result = []
-        while node.value:
+        while type(node) is Node:
             if node.value == val:
                 result.append(node)
             node = node.next
@@ -61,7 +61,13 @@ class DummyLinkedList2:
 
     def insert(self, afterNode, newNode):
         node = self.head.next
-        while node:
+        if node == self.tail:
+            self.head.next.prev = newNode
+            newNode.next = self.head.next
+            self.head.next = newNode
+            newNode.prev = self.head
+            return
+        while node.value:
             if node == afterNode:
                 break
             node = node.next
@@ -71,7 +77,8 @@ class DummyLinkedList2:
             self.tail.prev = newNode
             newNode.next = self.tail
         else:
-            newNode.next = node.next
+            newNode.next = self.tail
+            self.tail.prev = newNode
             newNode.prev = node
             node.next = newNode
 
@@ -82,16 +89,13 @@ class DummyLinkedList2:
         newNode.prev = self.head
 
     def clean(self):
-        node = self.head.next
-        while node.value:
-            self.head.next = self.head.next.next
-            node = node.next
-        self.tail.prev = None
+        self.head.next = self.tail
+        self.tail.prev = self.head
 
     def len(self):
         node = self.head.next
         result = []
-        while node.value:
+        while type(node) is Node:
             result.append(node)
             node = node.next
         return len(result)
