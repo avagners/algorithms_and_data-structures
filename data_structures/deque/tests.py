@@ -2,6 +2,7 @@ import random
 import unittest
 
 from Deque import Deque
+from check_palidrome import check_palidrome
 
 
 class TestDequeOneItem(unittest.TestCase):
@@ -119,6 +120,16 @@ class TestDequeManyItems(unittest.TestCase):
         self.assertEqual(self.s_deque.size(), len_queue - 1)
         self.assertEqual(result_remove, self.items_list[0])
         self.assertListEqual(self.s_deque.deque, self.items_list[1:])
+
+
+class TestDequeCheckPalidrome(unittest.TestCase):
+
+    def test_check_palidrome(self):
+        true_words = ['kayak', 'deified', 'rotator', 'peep', 'wow']
+        false_words = ['hello', 'defender', 'potato', 'hi', 'world']
+        for i in range(len(true_words)):
+            self.assertTrue(check_palidrome(true_words[i]))
+            self.assertFalse(check_palidrome(false_words[i]))
 
 
 if __name__ == '__main__':
