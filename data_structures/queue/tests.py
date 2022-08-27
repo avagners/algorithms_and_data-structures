@@ -2,6 +2,7 @@ import random
 import unittest
 
 from Queue import Queue
+from rotate_queue import rotate
 
 
 class TestQueueOneItem(unittest.TestCase):
@@ -77,6 +78,42 @@ class TestQueueManyItems(unittest.TestCase):
         self.assertEqual(dequeue_result, self.items_list[0])
         self.assertEqual(self.s_queue.size(), len_queue - 1)
         self.assertListEqual(self.s_queue.queue, self.items_list[1:])
+
+
+class TestRotateQueue(unittest.TestCase):
+
+    def setUp(self):
+        self.s_queue = Queue()
+        number = random.randrange(3, 100)
+        self.items_list = [random.randint(0, 100) for _ in range(number)]
+        for item in self.items_list:
+            self.s_queue.enqueue(item)
+
+    def test_rotate_many_items(self):
+        len_queue = self.s_queue.size()
+        shift = random.randint(1, len_queue)
+        shift_items = self.s_queue.queue[:shift]
+        rotate(self.s_queue, shift)
+        self.assertEqual(self.s_queue.size(), len_queue)
+        self.assertListEqual(shift_items, self.s_queue.queue[-shift:])
+
+    def test_rotate_empty_queue(self):
+        s_queue = Queue()
+        shift = random.randint(1, 100)
+        len_queue = self.s_queue.size()
+        rotate(s_queue, shift)
+        self.assertEqual(self.s_queue.size(), len_queue)
+        self.assertListEqual(s_queue.queue, [None])
+
+    def test_rotate_one_item(self):
+        s_queue = Queue()
+        item = random.randint(0, 100)
+        s_queue.enqueue(item)
+        len_queue = self.s_queue.size()
+        shift = random.randint(1, 100)
+        rotate(s_queue, shift)
+        self.assertEqual(self.s_queue.size(), len_queue)
+        self.assertListEqual(s_queue.queue, [item])
 
 
 if __name__ == '__main__':
