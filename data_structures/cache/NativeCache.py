@@ -55,6 +55,7 @@ class NativeCache:
                 self.slots[index] = key
                 self.values[index] = value
                 self.hits[index] = 0
+                break
             if not self.is_key(key) and self.slots[index] is None:
                 self.slots[index] = key
                 self.values[index] = value
