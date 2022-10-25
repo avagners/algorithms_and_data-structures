@@ -1,4 +1,6 @@
-def print_even_number(n: list, index=0):
+def print_even_number(n: list, index=None):
+    if index is None:
+        index = 0
     if index == len(n):
         return
     x = n[index]
