@@ -1,9 +1,5 @@
-def print_even_index(n: list, index=None):
-    if index is None:
-        index = 0
-    if index % 2 == 0:
-        print(n[index])
-    if index == len(n) - 1:
+def print_even_index(n: list):
+    if len(n) == 0:
         return
-    print_even_index(n, index + 1)
-    
+    print(n[0])
+    print_even_index(n[2:])
