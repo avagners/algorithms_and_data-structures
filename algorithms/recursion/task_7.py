@@ -1,14 +1,18 @@
-def find_second_max(n, max_value=None, second_max_value=None):
-    if max_value is None:
-        max_value = n.pop()
+def find_second_max(n, max_value, second_value):
     current = n.pop()
-    if second_max_value is None and current != max_value:
-        second_max_value = current
     if current > max_value:
-        second_max_value = max_value
+        second_value = max_value
         max_value = current
-    elif max_value > current > second_max_value:
-        second_max_value = current
+    elif max_value > current > second_value:
+        second_value = current
     if n:
-        return find_second_max(n, max_value, second_max_value)
-    return second_max_value
+        max_value, second_value = find_second_max(n, max_value, second_value)
+    return max_value, second_value
+
+
+def main(n):
+    number_1, number_2 = n[0], n[1]
+    max_value, second_value = ((number_1, number_2) if number_1 >= number_2
+                               else (number_2, number_1))
+    max_value, second_value = find_second_max(n, max_value, second_value)
+    return second_value
