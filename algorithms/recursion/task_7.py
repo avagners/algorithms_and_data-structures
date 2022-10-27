@@ -12,7 +12,7 @@ def find_second_max(n: list, max_value: int, second_value: int) -> tuple:
 
 def main(n: list) -> int:
     number_1, number_2 = n[0], n[1]
-    max_value, second_value = ((number_1, number_2) if number_1 >= number_2
-                               else (number_2, number_1))
+    max_value = max(number_1, number_2)
+    second_value = min(number_1, number_2)
     max_value, second_value = find_second_max(n, max_value, second_value)
     return second_value

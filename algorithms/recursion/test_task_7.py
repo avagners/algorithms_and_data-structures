@@ -20,6 +20,10 @@ class TestDequeOneItem(unittest.TestCase):
         result = main(array)
         self.assertEqual(result, 6)
 
+    def test_4(self):
+        array = [5, 4, 3, 2, 5]
+        result = main(array)
+        self.assertEqual(result, 4)
 
 if __name__ == '__main__':
     unittest.main()
