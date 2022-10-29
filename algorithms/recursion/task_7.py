@@ -1,18 +1,24 @@
-def find_second_max(n: list, max_value: int, second_value: int) -> tuple:
-    current = n.pop()
-    if current > max_value:
-        second_value = max_value
-        max_value = current
-    elif max_value > current > second_value:
-        second_value = current
-    if n:
-        max_value, second_value = find_second_max(n, max_value, second_value)
-    return max_value, second_value
+from typing import List, Tuple
+from random import choice
 
 
-def main(n: list) -> int:
-    number_1, number_2 = n[0], n[1]
-    max_value = max(number_1, number_2)
-    second_value = min(number_1, number_2)
-    max_value, second_value = find_second_max(n, max_value, second_value)
+def partition(array, pivot) -> Tuple[List[int], List[int], List[int]]:
+    less = [i for i in array if i < pivot]
+    center = [i for i in array if i == pivot]
+    greater = [i for i in array if i > pivot]
+    return less, center, greater
+
+
+def quicksort(array: List[int]) -> List[int]:
+    if len(array) < 2:
+        return array
+    else:
+        pivot = choice(array)
+        less, center, greater = partition(array, pivot)
+        return quicksort(less) + center + quicksort(greater)
+
+
+def find_second_max_value(n: list) -> int:
+    sorted_numbers = quicksort(n)
+    second_value = sorted_numbers[-2]
     return second_value
