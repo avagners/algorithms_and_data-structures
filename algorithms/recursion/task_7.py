@@ -12,10 +12,9 @@ def partition(array, pivot) -> Tuple[List[int], List[int], List[int]]:
 def quicksort(array: List[int]) -> List[int]:
     if len(array) < 2:
         return array
-    else:
-        pivot = choice(array)
-        less, center, greater = partition(array, pivot)
-        return quicksort(less) + center + quicksort(greater)
+    pivot = choice(array)
+    less, center, greater = partition(array, pivot)
+    return quicksort(less) + center + quicksort(greater)
 
 
 def find_second_max_value(n: list) -> int:
