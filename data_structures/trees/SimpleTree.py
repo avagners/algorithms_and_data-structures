@@ -35,12 +35,9 @@ class SimpleTree:
         '''
         nodes = []
         children = node.Children
-        if not children:
-            nodes.append(node)
-        else:
-            nodes.append(node)
-            for child in children:
-                nodes += self.__get_all_nodes(child)
+        nodes.append(node)
+        for child in children:
+            nodes += self.__get_all_nodes(child)
         return nodes
 
     def GetAllNodes(self) -> List[SimpleTreeNode]:
