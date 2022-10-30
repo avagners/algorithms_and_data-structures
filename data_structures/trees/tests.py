@@ -80,6 +80,19 @@ class TestSimpleTree(unittest.TestCase):
         self.assertEqual(self.new_node_3.Children, [self.new_node_4])
         self.assertEqual(self.new_node_3.Parent, self.new_node_2)
 
+    def test_SetLevelNode(self):
+        all_nodes = self.tree.GetAllNodes()
+        for node in all_nodes:
+            self.assertEqual(node.Level, None)
+        # устанавливаем уровни всех узлов дерева
+        self.tree.SetLevelNodes()
+        for node in all_nodes:
+            self.assertNotEqual(node.Level, None)
+        self.assertEqual(self.tree.Root.Level, 0)
+        for node in self.tree.Root.Children:
+            self.assertEqual(node.Level, 1)
+        self.assertEqual(self.new_node_4.Level, 2)
+
 
 if __name__ == '__main__':
     unittest.main()

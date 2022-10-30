@@ -7,6 +7,7 @@ class SimpleTreeNode:
         self.NodeValue = val  # значение в узле
         self.Parent = parent  # родитель или None для корня
         self.Children = []  # список дочерних узлов
+        self.Level = None  # уровень узла в дереве
 
 
 class SimpleTree:
@@ -34,9 +35,8 @@ class SimpleTree:
         возвращает список всех узлов.
         '''
         nodes = []
-        children = node.Children
         nodes.append(node)
-        for child in children:
+        for child in node.Children:
             nodes += self.__get_all_nodes(child)
         return nodes
 
@@ -61,3 +61,17 @@ class SimpleTree:
 
     def LeafCount(self) -> int:
         return len([node for node in self.GetAllNodes() if not node.Children])
+
+    def __set_level_nodes(self, node: SimpleTreeNode) -> None:
+        '''
+        Приватный метод рекурсивно проходит по дереву
+        и устанавливает уровень узла в дереве.
+        '''
+        if node == self.Root:
+            node.Level = 0
+        for child in node.Children:
+            child.Level = child.Parent.Level + 1
+            self.__set_level_nodes(child)
+
+    def SetLevelNodes(self):
+        self.__set_level_nodes(self.Root)
