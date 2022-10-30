@@ -26,7 +26,7 @@ class SimpleTree:
 
     def DeleteNode(self, NodeToDelete: SimpleTreeNode):
         '''
-        Метод удаления существующего узла.
+        Метод удаления существующего узла вместе с дочерними узлами.
         '''
         NodeToDelete.Parent.Children.remove(NodeToDelete)
         NodeToDelete.Parent = None
@@ -62,7 +62,7 @@ class SimpleTree:
         return [node for node in self.GetAllNodes() if node.NodeValue == val]
 
     def MoveNode(self, OriginalNode, NewParent):
-        # ваш код перемещения узла вместе с его поддеревом --
+        # перемещение узла вместе с его поддеревом --
         # в качестве дочернего для узла NewParent
         pass
 
