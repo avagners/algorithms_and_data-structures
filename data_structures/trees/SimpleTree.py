@@ -15,9 +15,6 @@ class SimpleTree:
         self.Root = root  # корень, может быть None
 
     def AddChild(self, ParentNode: SimpleTreeNode, NewChild: SimpleTreeNode):
-        '''
-        Метод добавления нового узла.
-        '''
         NewChild.Parent = ParentNode
         if ParentNode is None:
             self.Root = NewChild
@@ -26,7 +23,7 @@ class SimpleTree:
 
     def DeleteNode(self, NodeToDelete: SimpleTreeNode):
         '''
-        Метод удаления существующего узла вместе с дочерними узлами.
+        Метод удаления узла вместе с дочерними узлами.
         '''
         NodeToDelete.Parent.Children.remove(NodeToDelete)
         NodeToDelete.Parent = None
@@ -47,33 +44,23 @@ class SimpleTree:
         return nodes
 
     def GetAllNodes(self) -> List[SimpleTreeNode]:
-        '''
-        Метод возвращает список всех узлов дерева.
-        '''
         if self.Root is None:
             return []
         return self.__get_all_nodes(self.Root)
 
     def FindNodesByValue(self, val: int) -> List[SimpleTreeNode]:
-        '''
-        Метод поиска узлов по значению.
-        Возвращает список узлов.
-        '''
         return [node for node in self.GetAllNodes() if node.NodeValue == val]
 
     def MoveNode(self, OriginalNode, NewParent):
-        # перемещение узла вместе с его поддеревом --
-        # в качестве дочернего для узла NewParent
-        pass
+        '''
+        Метод перемещения узла вместе с его поддеревом
+        в качестве дочернего для узла NewParent.
+        '''
+        self.DeleteNode(OriginalNode)
+        self.AddChild(NewParent, OriginalNode)
 
     def Count(self) -> int:
-        '''
-        Метод возвращает количество всех узлов в дереве.
-        '''
         return len(self.GetAllNodes())
 
     def LeafCount(self) -> int:
-        '''
-        Метод возвращает количество листьев в дереве.
-        '''
         return len([node for node in self.GetAllNodes() if not node.Children])

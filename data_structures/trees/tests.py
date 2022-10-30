@@ -26,6 +26,11 @@ class TestSimpleTree(unittest.TestCase):
         self.assertIn(new_node, self.node_root.Children)
         self.assertEqual(new_node.Parent, self.node_root)
 
+    def test_GetAllNodes(self):
+        nodes = [self.node_root, self.new_node_2,
+                 self.new_node_3, self.new_node_4]
+        self.assertListEqual(self.tree.GetAllNodes(), nodes)
+
     def test_FindNodesByValue(self):
         find_nodes = self.tree.FindNodesByValue(8)
         self.assertEqual(find_nodes, [self.new_node_3, self.new_node_4])
@@ -60,6 +65,20 @@ class TestSimpleTree(unittest.TestCase):
         # всех его дочерних узлов в дереве
         self.assertNotIn(self.new_node_3, self.tree.GetAllNodes())
         self.assertNotIn(self.new_node_4, self.tree.GetAllNodes())
+
+    def test_MoveNode(self):
+        self.assertIn(self.new_node_3, self.tree.Root.Children)
+        self.assertNotIn(self.new_node_3, self.new_node_3.Children)
+        self.assertEqual(self.new_node_3.Children, [self.new_node_4])
+        self.assertEqual(self.new_node_3.Parent, self.tree.Root)
+        self.tree.MoveNode(
+            OriginalNode=self.new_node_3,
+            NewParent=self.new_node_2
+        )
+        self.assertNotIn(self.new_node_3, self.tree.Root.Children)
+        self.assertIn(self.new_node_3, self.new_node_2.Children)
+        self.assertEqual(self.new_node_3.Children, [self.new_node_4])
+        self.assertEqual(self.new_node_3.Parent, self.new_node_2)
 
 
 if __name__ == '__main__':
