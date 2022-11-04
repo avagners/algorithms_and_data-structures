@@ -215,6 +215,21 @@ class TestDeleteNode(unittest.TestCase):
         self.assertEqual(self.tree.Root.RightChild.RightChild.LeftChild.Parent.NodeKey, 16)
         self.assertEqual(self.tree.Root.RightChild.RightChild.RightChild.NodeKey, 18)
 
+    def test_delte_root(self):
+        size = self.tree.Count()
+        node = self.tree.FindNodeByKey(10).Node
+        self.assertIn(node, self.tree.GetAllNodes())
+        self.tree.DeleteNodeByKey(10)
+        self.assertNotIn(node, self.tree.GetAllNodes())
+        self.assertEqual(self.tree.Root.NodeKey, 11)
+        self.assertEqual(self.tree.Root.LeftChild.NodeKey, 8)
+        self.assertEqual(self.tree.Root.RightChild.NodeKey, 12)
+        self.assertEqual(self.tree.Root.RightChild.Parent.NodeKey, 11)
+        self.assertEqual(self.tree.Root.LeftChild.Parent.NodeKey, 11)
+        self.assertIsNone(self.tree.Root.RightChild.LeftChild)
+        self.assertIsNone(self.tree.Root.Parent)
+        self.assertEqual(self.tree.Count(), size - 1)
+
     def test_if_not_find_node(self):
         size_tree = self.tree.Count()
         self.assertFalse(self.tree.DeleteNodeByKey(100))

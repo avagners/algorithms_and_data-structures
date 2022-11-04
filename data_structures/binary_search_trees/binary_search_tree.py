@@ -68,11 +68,26 @@ class BST:
             return self.FinMinMax(FromNode.LeftChild, FindMax)
         return FromNode
 
-    def __insert_node(self, parent: BSTNode, new_node: BSTNode, is_left):
+    def __insert_left_or_right_node(self, node_delete: BSTNode, node_successor: BSTNode):
+        # проверяем какой узел удаляем - правый или левый
+        is_left = node_delete.NodeKey < node_delete.Parent.NodeKey
         if is_left:
-            parent.LeftChild = new_node
+            node_delete.Parent.LeftChild = node_successor
         else:
-            parent.RightChild = new_node
+            node_delete.Parent.RightChild = node_successor
+        # перемещаем преемника на место удаленного узла
+        node_successor.Parent = node_delete.Parent
+
+    def __insert_node(self, node_delete: BSTNode, node_successor: BSTNode):
+        if node_delete == self.Root:
+            self.Root = node_successor
+            node_successor.Parent = None
+        else:
+            self.__insert_left_or_right_node(node_delete, node_successor)
+        node_successor.LeftChild = node_delete.LeftChild
+        node_successor.RightChild = node_delete.RightChild
+        node_successor.RightChild.Parent = node_successor
+        node_successor.LeftChild.Parent = node_successor
 
     def DeleteNodeByKey(self, key):
         # удаляем узел по ключу
@@ -82,25 +97,17 @@ class BST:
         node_delete = bst_find.Node
         # находим преемника
         node_successor = self.FinMinMax(node_delete.RightChild, False)
-        # проверяем правый или левый узел удаляем
-        is_left = node_delete.NodeKey < node_delete.Parent.NodeKey
-        # если у преемника нет наследников, то удаляем у родителя преемника
-        # удаляем левого наследника
+        # если у преемника нет потомков, то удаляем у родителя преемника
+        # левого потомка
         if not node_successor.LeftChild and not node_successor.RightChild:
             node_successor.Parent.LeftChild = None
-            self.__insert_node(node_delete.Parent, node_successor, is_left)
-        # если у преемника есть только правый наследник, то
-        # на место преемника ставим этот наследник
+            self.__insert_node(node_delete, node_successor)
+        # если у преемника есть только правый потомок, то
+        # на место преемника ставим этот потомок
         elif not node_successor.LeftChild:
             node_successor.Parent.LeftChild = node_successor.RightChild
             node_successor.RightChild.Parent = node_successor.Parent
-            self.__insert_node(node_delete.Parent, node_successor, is_left)
-        # перемещаем преемника на место удаленного узла
-        node_successor.Parent = node_delete.Parent
-        node_successor.LeftChild = node_delete.LeftChild
-        node_successor.RightChild = node_delete.RightChild
-        node_successor.RightChild.Parent = node_successor
-        node_successor.LeftChild.Parent = node_successor
+            self.__insert_node(node_delete, node_successor)
         self.__size -= 1
 
     def Count(self) -> int:
