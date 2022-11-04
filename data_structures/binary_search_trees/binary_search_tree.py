@@ -68,7 +68,7 @@ class BST:
             return self.FinMinMax(FromNode.LeftChild, FindMax)
         return FromNode
 
-    def __insert_left_or_right_node(self, node_delete: BSTNode, node_successor: BSTNode):
+    def __insert_left_or_right_node(self, node_delete, node_successor):
         # проверяем какой узел удаляем - правый или левый
         is_left = node_delete.NodeKey < node_delete.Parent.NodeKey
         if is_left:
