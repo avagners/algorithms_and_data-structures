@@ -20,14 +20,31 @@ class TestBSTree(unittest.TestCase):
         self.assertIsNone(node.Parent)
 
     def test_find_node(self):
+        # нет ни одного узла
         search_result = self.tree.FindNodeByKey(1)
         self.assertIsInstance(search_result, BSTFind)
         self.assertIsNone(search_result.Node)
         self.assertFalse(search_result.ToLeft)
         self.assertFalse(search_result.NodeHasKey)
+        # добавили корень
         self.tree.AddKeyValue(10, 1)
         self.assertEqual(self.tree.Root.NodeKey, 10)
+        # запрошенный ключ добавляем левому потомку
+        search_result = self.tree.FindNodeByKey(8)
+        self.assertEqual(search_result.Node.NodeKey, 10)
+        self.assertTrue(search_result.ToLeft)
+        self.assertFalse(search_result.NodeHasKey)
+        # запрошенный ключ добавляем правому потомку
+        search_result = self.tree.FindNodeByKey(12)
+        self.assertEqual(search_result.Node.NodeKey, 10)
+        self.assertFalse(search_result.ToLeft)
+        self.assertFalse(search_result.NodeHasKey)
         self.tree.AddKeyValue(8, 1)
+        # проверяем поиск присутствующего ключа
+        search_result = self.tree.FindNodeByKey(8)
+        self.assertEqual(search_result.Node.NodeKey, 8)
+        self.assertFalse(search_result.ToLeft)
+        self.assertTrue(search_result.NodeHasKey)
         self.assertEqual(self.tree.Root.LeftChild.NodeKey, 8)
 
     def test_add_root_node(self):
@@ -109,6 +126,14 @@ class TestBSTree(unittest.TestCase):
         self.assertEqual(result.NodeKey, 5)
         result = self.tree.FinMinMax(self.tree.Root, True)
         self.assertEqual(result.NodeKey, 16)
+        result = self.tree.FinMinMax(self.tree.Root.RightChild, False)
+        self.assertEqual(result.NodeKey, 12)
+        result = self.tree.FinMinMax(self.tree.Root.RightChild, True)
+        self.assertEqual(result.NodeKey, 16)
+        result = self.tree.FinMinMax(self.tree.Root.LeftChild, False)
+        self.assertEqual(result.NodeKey, 5)
+        result = self.tree.FinMinMax(self.tree.Root.LeftChild, True)
+        self.assertEqual(result.NodeKey, 8)
 
     def test_get_count(self):
         self.assertEqual(self.tree.Count(), 0)
