@@ -146,6 +146,8 @@ class TestBSTree(unittest.TestCase):
         self.assertEqual(self.tree.Count(), len(all_nodes))
 
     def test_delete_root(self):
+        # удаляем корень дерева состоящего из 3-х узлов
+        # родитель преемника = удаляемый корень
         # у преемника нет потомоков
         self.tree.AddKeyValue(50, 1)
         self.assertEqual(self.tree.Root.NodeKey, 50)
@@ -167,6 +169,8 @@ class TestBSTree(unittest.TestCase):
         self.assertIsNone(self.tree.Root.RightChild)
 
     def test_delete_root_with_right_child(self):
+        # удаляем корень дерева из 4-х узлов
+        # родитель преемника = удаляемый корень
         # у преемника есть правый потомок
         self.tree.AddKeyValue(50, 1)
         self.assertEqual(self.tree.Root.NodeKey, 50)
@@ -200,6 +204,8 @@ class TestBSTree(unittest.TestCase):
         self.assertIsNone(self.tree.Root.RightChild.RightChild)
 
     def test_delete_root_and_node_successor_is_leaf(self):
+        # удаляем корень дерева из 5-ти узлов
+        # преемник не имеет потомков
         self.tree.AddKeyValue(50, 1)
         self.assertEqual(self.tree.Root.NodeKey, 50)
         self.tree.AddKeyValue(25, 2)
@@ -225,6 +231,8 @@ class TestBSTree(unittest.TestCase):
         )
 
     def test_delete_root_and_node_successor_is_not_leaf(self):
+        # удаляем корень дерева из 6-ти узлов
+        # у преемника есть правый потомок
         self.tree.AddKeyValue(50, 1)
         self.assertEqual(self.tree.Root.NodeKey, 50)
         self.tree.AddKeyValue(25, 2)
@@ -420,6 +428,8 @@ class TestDeleteNode(unittest.TestCase):
         )
 
     def test_delete_root(self):
+        # удаляем корень в дереве
+        # преемником не имеет потомков
         size = self.tree.Count()
         node = self.tree.FindNodeByKey(10).Node
         self.assertIn(node, self.tree.GetAllNodes())
