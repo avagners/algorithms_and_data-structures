@@ -95,7 +95,8 @@ class BST:
         node_delete = bst_find.Node
         # находим преемника
         node_successor = self.FinMinMax(node_delete.RightChild, False)
-        is_leaf = not node_successor.LeftChild and not node_successor.RightChild
+        is_leaf = (not node_successor.LeftChild and
+                   not node_successor.RightChild)
         # если у преемника нет потомков
         # и родитель является удаляемым узлом
         if node_successor.Parent == node_delete and is_leaf:

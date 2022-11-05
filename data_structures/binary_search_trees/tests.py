@@ -183,7 +183,9 @@ class TestBSTree(unittest.TestCase):
         self.tree.AddKeyValue(100, 3)
         self.assertEqual(self.tree.Count(), len(all_nodes) + 1)
         self.assertEqual(self.tree.Root.RightChild.RightChild.NodeKey, 100)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.Parent.NodeKey, 75)
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.Parent.NodeKey, 75
+        )
         self.tree.DeleteNodeByKey(50)
         self.assertEqual(self.tree.Count(), len(all_nodes))
         self.assertEqual(self.tree.Root.Parent, None)
@@ -218,7 +220,9 @@ class TestBSTree(unittest.TestCase):
         self.assertEqual(self.tree.Root.RightChild.Parent.NodeKey, 60)
         self.assertIsNone(self.tree.Root.RightChild.LeftChild)
         self.assertEqual(self.tree.Root.RightChild.RightChild.NodeKey, 100)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.Parent.NodeKey, 75)
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.Parent.NodeKey, 75
+        )
 
     def test_delete_root_and_node_successor_is_not_leaf(self):
         self.tree.AddKeyValue(50, 1)
@@ -246,8 +250,12 @@ class TestBSTree(unittest.TestCase):
         self.assertIsNone(self.tree.Root.RightChild.RightChild.LeftChild)
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.RightChild)
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.LeftChild)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.Parent.NodeKey, 75)
-        self.assertEqual(self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 75)
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.Parent.NodeKey, 75
+        )
+        self.assertEqual(
+            self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 75
+        )
 
     def test_node_successor_parent_is_node_delete_leaf(self):
         self.tree.AddKeyValue(50, 1)
@@ -271,9 +279,13 @@ class TestBSTree(unittest.TestCase):
         self.assertEqual(self.tree.Root.RightChild.Parent.NodeKey, 50)
         self.assertEqual(self.tree.Root.RightChild.LeftChild.NodeKey, 60)
         self.assertIsNone(self.tree.Root.RightChild.RightChild)
-        self.assertEqual(self.tree.Root.RightChild.LeftChild.RightChild.NodeKey, 65)
+        self.assertEqual(
+            self.tree.Root.RightChild.LeftChild.RightChild.NodeKey, 65
+        )
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.LeftChild)
-        self.assertEqual(self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 100)
+        self.assertEqual(
+            self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 100
+        )
 
     def test_node_successor_parent_is_node_delete_not_leaf(self):
         self.tree.AddKeyValue(50, 1)
@@ -298,10 +310,18 @@ class TestBSTree(unittest.TestCase):
         self.assertEqual(self.tree.Root.RightChild.Parent.NodeKey, 50)
         self.assertEqual(self.tree.Root.RightChild.LeftChild.NodeKey, 60)
         self.assertEqual(self.tree.Root.RightChild.RightChild.NodeKey, 120)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.Parent.NodeKey, 100)
-        self.assertEqual(self.tree.Root.RightChild.LeftChild.RightChild.NodeKey, 65)
-        self.assertIsNone(self.tree.Root.RightChild.LeftChild.LeftChild)
-        self.assertEqual(self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 100)
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.Parent.NodeKey, 100
+        )
+        self.assertEqual(
+            self.tree.Root.RightChild.LeftChild.RightChild.NodeKey, 65
+        )
+        self.assertIsNone(
+            self.tree.Root.RightChild.LeftChild.LeftChild
+        )
+        self.assertEqual(
+            self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 100
+        )
 
 
 class TestDeleteNode(unittest.TestCase):
@@ -322,15 +342,25 @@ class TestDeleteNode(unittest.TestCase):
         # проверяем удаляемый узел и соседние узлы до удаления
         self.assertEqual(self.tree.Root.RightChild.NodeKey, 12)
         self.assertEqual(self.tree.Root.RightChild.LeftChild.NodeKey, 11)
-        self.assertEqual(self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 12)
+        self.assertEqual(
+            self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 12
+        )
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.LeftChild)
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.RightChild)
         self.assertEqual(self.tree.Root.RightChild.RightChild.NodeKey, 16)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.Parent.NodeKey, 12)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.LeftChild.NodeKey, 13)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.RightChild.NodeKey, 18)
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.Parent.NodeKey, 12
+        )
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.LeftChild.NodeKey, 13
+        )
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.RightChild.NodeKey, 18
+        )
         self.assertEqual(self.tree.Root.RightChild.LeftChild.NodeKey, 11)
-        self.assertEqual(self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 12)
+        self.assertEqual(
+            self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 12
+        )
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.LeftChild)
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.RightChild)
 
@@ -345,12 +375,18 @@ class TestDeleteNode(unittest.TestCase):
         self.assertEqual(self.tree.Root.RightChild.NodeKey, 13)
         self.assertEqual(self.tree.Root.RightChild.LeftChild.NodeKey, 11)
         self.assertEqual(self.tree.Root.RightChild.RightChild.NodeKey, 16)
-        self.assertEqual(self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 13)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.Parent.NodeKey, 13)
+        self.assertEqual(
+            self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 13
+        )
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.Parent.NodeKey, 13
+        )
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.LeftChild)
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.RightChild)
         self.assertIsNone(self.tree.Root.RightChild.RightChild.LeftChild)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.RightChild.NodeKey, 18)
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.RightChild.NodeKey, 18
+        )
 
     def test_successor_has_right_node(self):
         # у преемника есть правый потомок
@@ -364,14 +400,24 @@ class TestDeleteNode(unittest.TestCase):
         self.assertEqual(self.tree.Root.RightChild.NodeKey, 13)
         self.assertEqual(self.tree.Root.RightChild.LeftChild.NodeKey, 11)
         self.assertEqual(self.tree.Root.RightChild.RightChild.NodeKey, 16)
-        self.assertEqual(self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 13)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.Parent.NodeKey, 13)
+        self.assertEqual(
+            self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 13
+        )
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.Parent.NodeKey, 13
+        )
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.LeftChild)
         self.assertIsNone(self.tree.Root.RightChild.LeftChild.RightChild)
         # на место преемника поместили его правого потомка
-        self.assertEqual(self.tree.Root.RightChild.RightChild.LeftChild.NodeKey, 15)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.LeftChild.Parent.NodeKey, 16)
-        self.assertEqual(self.tree.Root.RightChild.RightChild.RightChild.NodeKey, 18)
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.LeftChild.NodeKey, 15
+        )
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.LeftChild.Parent.NodeKey, 16
+        )
+        self.assertEqual(
+            self.tree.Root.RightChild.RightChild.RightChild.NodeKey, 18
+        )
 
     def test_delete_root(self):
         size = self.tree.Count()
