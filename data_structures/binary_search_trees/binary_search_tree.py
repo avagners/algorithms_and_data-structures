@@ -77,8 +77,6 @@ class BST:
             node_delete.Parent.RightChild = node_successor
         # перемещаем преемника на место удаленного узла
         node_successor.Parent = node_delete.Parent
-        node_delete.RightChild.Parent = node_successor
-        node_delete.LeftChild.Parent = node_successor
 
     def __insert_node(self, node_delete: BSTNode, node_successor: BSTNode):
         if node_delete == self.Root:
@@ -102,7 +100,7 @@ class BST:
         # и родитель является удаляемым узлом
         if node_successor.Parent == node_delete and is_leaf:
             node_successor.Parent.RightChild = None
-            node_successor.Parent.LeftChild.Parent = node_successor
+            node_delete.LeftChild.Parent = node_successor
             self.__insert_node(node_delete, node_successor)
         # если у преемника есть правый потомок
         # и родитель является удаляемым узлом
@@ -120,6 +118,8 @@ class BST:
         # если у преемника есть только правый потомок, то
         # на место преемника ставим этот потомок
         elif not is_leaf:
+            node_delete.LeftChild.Parent = node_successor
+            node_delete.RightChild.Parent = node_successor
             node_successor.Parent.LeftChild = node_successor.RightChild
             node_successor.RightChild.Parent = node_successor.Parent
             self.__insert_node(node_delete, node_successor)
