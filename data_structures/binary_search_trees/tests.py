@@ -464,6 +464,20 @@ class TestDeleteNode(unittest.TestCase):
         self.assertFalse(self.tree.DeleteNodeByKey(100))
         self.assertEqual(self.tree.Count(), size_tree)
 
+    def test_delete_last_node(self):
+        node = self.tree.FindNodeByKey(18).Node
+        node_parent = node.Parent
+        self.assertEqual(node_parent.RightChild, node)
+        self.assertEqual(node_parent.RightChild.NodeKey, 18)
+        self.assertEqual(node_parent.NodeKey, 16)
+        self.assertIn(node, self.tree.GetAllNodes())
+        self.assertEqual(self.tree.Count(), 9)
+        self.tree.DeleteNodeByKey(18)
+        self.assertNotIn(node, self.tree.GetAllNodes())
+        self.assertEqual(self.tree.Count(), 8)
+        self.assertIsNone(node_parent.RightChild)
+        self.assertIsNotNone(node_parent.LeftChild)
+
 
 class TestDeleteRoot(unittest.TestCase):
 

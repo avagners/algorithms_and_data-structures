@@ -76,8 +76,6 @@ class BST:
             node_delete.Parent.LeftChild = node_successor
         else:
             node_delete.Parent.RightChild = node_successor
-        # перемещаем преемника на место удаленного узла
-        node_successor.Parent = node_delete.Parent
 
     def __insert_node(self, node_delete: BSTNode, node_successor: BSTNode):
         if node_delete == self.Root:
@@ -85,8 +83,13 @@ class BST:
             self.Root.Parent = None
         else:
             self.__insert_left_or_right_node(node_delete, node_successor)
+            # перемещаем преемника на место удаленного узла
+            node_successor.Parent = node_delete.Parent
         node_successor.LeftChild = node_delete.LeftChild
         node_successor.RightChild = node_delete.RightChild
+
+    def is_leaf(self, node: BSTNode) -> bool:
+        return not node.LeftChild and not node.RightChild
 
     def DeleteNodeByKey(self, key: int):
         # удаляем узел по ключу
@@ -95,37 +98,40 @@ class BST:
         if not bst_find.NodeHasKey:
             return False
         # если в дереве только один узел
-        if not node_delete.Parent and (not node_delete.LeftChild and
-                                       not node_delete.RightChild):
+        if not node_delete.Parent and self.is_leaf(node_delete):
             self.Root = None
+            self.__size -= 1
+            return
+        # если удаляем последний узел дерева
+        if self.is_leaf(node_delete):
+            self.__insert_left_or_right_node(node_delete, None)
             self.__size -= 1
             return
         # находим преемника
         node_successor = self.FinMinMax(node_delete.RightChild, False)
-        is_leaf = (not node_successor.LeftChild and
-                   not node_successor.RightChild)
+        successor_is_leaf = self.is_leaf(node_successor)
         # если у преемника нет потомков
         # и родитель является удаляемым узлом
-        if node_successor.Parent == node_delete and is_leaf:
+        if node_successor.Parent == node_delete and successor_is_leaf:
             node_successor.Parent.RightChild = None
             node_delete.LeftChild.Parent = node_successor
             self.__insert_node(node_delete, node_successor)
         # если у преемника есть правый потомок
         # и родитель является удаляемым узлом
-        elif node_successor.Parent == node_delete and not is_leaf:
+        elif node_successor.Parent == node_delete and not successor_is_leaf:
             node_successor.Parent.RightChild = node_successor.RightChild
             node_delete.LeftChild.Parent = node_successor
             self.__insert_node(node_delete, node_successor)
         # если у преемника нет потомков, то удаляем
         # у родителя преемника левый потомок
-        elif is_leaf:
+        elif successor_is_leaf:
             node_successor.Parent.LeftChild = None
             node_delete.RightChild.Parent = node_successor
             node_delete.LeftChild.Parent = node_successor
             self.__insert_node(node_delete, node_successor)
         # если у преемника есть только правый потомок, то
         # на место преемника ставим этот потомок
-        elif not is_leaf:
+        elif not successor_is_leaf:
             node_delete.LeftChild.Parent = node_successor
             node_delete.RightChild.Parent = node_successor
             node_successor.Parent.LeftChild = node_successor.RightChild
