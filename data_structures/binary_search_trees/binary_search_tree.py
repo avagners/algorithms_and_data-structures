@@ -140,7 +140,7 @@ class BST:
         self.__size -= 1
 
     def Count(self) -> int:
-        return self.__size  # количество узлов в дереве
+        return len(self.GetAllNodes())  # количество узлов в дереве
 
     def __get_all_nodes(self, node: BSTNode) -> list:
         '''

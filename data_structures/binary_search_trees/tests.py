@@ -465,6 +465,7 @@ class TestDeleteNode(unittest.TestCase):
         self.assertEqual(self.tree.Count(), size_tree)
 
     def test_delete_right_leaf(self):
+        # удаляем правый последний узел
         node = self.tree.FindNodeByKey(18).Node
         node_parent = node.Parent
         self.assertEqual(node_parent.RightChild, node)
@@ -479,6 +480,7 @@ class TestDeleteNode(unittest.TestCase):
         self.assertIsNotNone(node_parent.LeftChild)
 
     def test_delete_left_leaf(self):
+        # удаляем левый последний узел
         node = self.tree.FindNodeByKey(13).Node
         node_parent = node.Parent
         self.assertEqual(node_parent.LeftChild, node)
@@ -491,14 +493,18 @@ class TestDeleteNode(unittest.TestCase):
         self.assertEqual(self.tree.Count(), 8)
         self.assertIsNone(node_parent.LeftChild)
         self.assertIsNotNone(node_parent.RightChild)
+        self.assertEqual(node_parent.RightChild.NodeKey, 18)
 
     def test_delete_last_node(self):
+        # удаляем последний узел
         node_parent = self.tree.FindNodeByKey(13).Node
         node = BSTNode(15, 10, node_parent)
         node_parent.RightChild = node
         self.assertEqual(node_parent.RightChild, node)
+        self.assertEqual(node_parent.LeftChild, None)
         self.assertEqual(node_parent.RightChild.NodeKey, 15)
         self.assertEqual(node_parent.NodeKey, 13)
+        self.assertEqual(node.Parent, node_parent)
         self.assertIn(node, self.tree.GetAllNodes())
         self.tree.DeleteNodeByKey(15)
         self.assertNotIn(node, self.tree.GetAllNodes())
