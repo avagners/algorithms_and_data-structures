@@ -91,7 +91,7 @@ class BST:
     def is_leaf(self, node: BSTNode) -> bool:
         return not node.LeftChild and not node.RightChild
 
-    def DeleteNodeByKey(self, key: int):
+    def DeleteNodeByKey(self, key: int) -> bool:
         # удаляем узел по ключу
         bst_find = self.FindNodeByKey(key)
         node_delete = bst_find.Node
@@ -101,12 +101,12 @@ class BST:
         if not node_delete.Parent and self.is_leaf(node_delete):
             self.Root = None
             self.__size -= 1
-            return
+            return True
         # если удаляем последний узел дерева
         if self.is_leaf(node_delete):
             self.__insert_left_or_right_node(node_delete, None)
             self.__size -= 1
-            return
+            return True
         # находим преемника
         node_successor = self.FinMinMax(node_delete.RightChild, False)
         successor_is_leaf = self.is_leaf(node_successor)
@@ -138,6 +138,7 @@ class BST:
             node_successor.RightChild.Parent = node_successor.Parent
             self.__insert_node(node_delete, node_successor)
         self.__size -= 1
+        return True
 
     def Count(self) -> int:
         return len(self.GetAllNodes())  # количество узлов в дереве
