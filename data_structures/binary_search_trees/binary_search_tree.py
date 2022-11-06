@@ -36,7 +36,7 @@ class BST:
         elif key > node.NodeKey and node.RightChild:
             search_result.Node = node.RightChild
             return self.__find_node(search_result, key)
-        search_result.ToLeft = True if key < node.NodeKey else False
+        search_result.ToLeft = key < node.NodeKey
         return search_result
 
     def FindNodeByKey(self, key: int) -> BSTFind:
@@ -91,9 +91,15 @@ class BST:
     def DeleteNodeByKey(self, key: int):
         # удаляем узел по ключу
         bst_find = self.FindNodeByKey(key)
+        node_delete = bst_find.Node
         if not bst_find.NodeHasKey:
             return False
-        node_delete = bst_find.Node
+        # если в дереве только один узел
+        if not node_delete.Parent and (not node_delete.LeftChild and
+                                       not node_delete.RightChild):
+            self.Root = None
+            self.__size -= 1
+            return
         # находим преемника
         node_successor = self.FinMinMax(node_delete.RightChild, False)
         is_leaf = (not node_successor.LeftChild and
