@@ -148,7 +148,7 @@ class TestBSTree(unittest.TestCase):
     def test_delete_only_root(self):
         # удаляем корень дерева состоящего из 1-го узла
         self.assertIsNone(self.tree.Root)
-        self.tree.AddKeyValue(10, None)
+        self.tree.AddKeyValue(10, 1)
         self.assertEqual(self.tree.Root.NodeKey, 10)
         node = self.tree.FindNodeByKey(10).Node
         self.assertEqual(node, self.tree.Root)
