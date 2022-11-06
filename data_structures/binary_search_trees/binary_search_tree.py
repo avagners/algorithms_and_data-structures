@@ -58,6 +58,7 @@ class BST:
         else:
             search_result.Node.RightChild = new_node
         self.__size += 1
+        return True
 
     def FinMinMax(self, FromNode: BSTNode, FindMax: bool) -> BSTNode:
         if not self.Root:
