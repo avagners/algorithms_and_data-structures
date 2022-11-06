@@ -465,5 +465,23 @@ class TestDeleteNode(unittest.TestCase):
         self.assertEqual(self.tree.Count(), size_tree)
 
 
+class TestDeleteRoot(unittest.TestCase):
+
+    def test_delete_root(self):
+        root = BSTNode(8, 0, None)
+        tree = BST(root)
+        self.assertEqual(tree.Root.NodeKey, 8)
+        node = tree.FindNodeByKey(8).Node
+        self.assertEqual(node, tree.Root)
+        all_nodes = tree.GetAllNodes()
+        self.assertEqual(tree.Count(), len(all_nodes))
+        result = tree.DeleteNodeByKey(8)
+        self.assertIsNone(result)
+        self.assertEqual(tree.Count(), len(all_nodes) - 1)
+        all_nodes = tree.GetAllNodes()
+        self.assertNotIn(node, all_nodes)
+        self.assertIsNone(tree.Root)
+
+
 if __name__ == '__main__':
     unittest.main()
