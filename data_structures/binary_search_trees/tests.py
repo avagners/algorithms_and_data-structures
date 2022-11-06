@@ -156,6 +156,8 @@ class TestBSTree(unittest.TestCase):
         self.assertEqual(self.tree.Count(), len(all_nodes))
         self.tree.DeleteNodeByKey(10)
         self.assertEqual(self.tree.Count(), len(all_nodes) - 1)
+        all_nodes = self.tree.GetAllNodes()
+        self.assertNotIn(node, all_nodes)
         self.assertIsNone(self.tree.Root)
 
     def test_delete_root(self):
