@@ -358,6 +358,18 @@ class TestBSTree(unittest.TestCase):
             self.tree.Root.RightChild.LeftChild.Parent.NodeKey, 100
         )
 
+    def test_wide_all_nodes_in_empty_tree(self):
+        all_nodes = self.tree.WideAllNodes()
+        self.assertIsInstance(all_nodes, tuple)
+        self.assertEqual(len(all_nodes), 0)
+
+    def test_wide_all_nodes_only_root_node(self):
+        self.tree.AddKeyValue(10, 1)
+        all_nodes = self.tree.WideAllNodes()
+        self.assertIsInstance(all_nodes, tuple)
+        self.assertIsInstance(all_nodes[0], BSTNode)
+        self.assertEqual(len(all_nodes), 1)
+
 
 class TestDeleteNode(unittest.TestCase):
 
@@ -522,6 +534,12 @@ class TestDeleteNode(unittest.TestCase):
         self.assertNotIn(node, self.tree.GetAllNodes())
         self.assertIsNone(node_parent.RightChild)
         self.assertIsNone(node_parent.LeftChild)
+
+    def test_wide_all_nodes(self):
+        all_nodes = self.tree.WideAllNodes()
+        self.assertIsInstance(all_nodes, tuple)
+        self.assertIsInstance(all_nodes[0], BSTNode)
+        self.assertEqual(len(all_nodes), self.tree.Count())
 
 
 class TestDeleteRoot(unittest.TestCase):

@@ -161,3 +161,17 @@ class BST:
         if not self.Root:
             return []
         return self.__get_all_nodes(self.Root)
+
+    def WideAllNodes(self) -> tuple:
+        if not self.Root:
+            return ()
+        all_nodes = []
+        nodes_in_level = [self.Root]  # начинаем с корня
+        while nodes_in_level:
+            node = nodes_in_level.pop(0)
+            all_nodes.append(node)
+            if node.LeftChild:
+                nodes_in_level.append(node.LeftChild)
+            if node.RightChild:
+                nodes_in_level.append(node.RightChild)
+        return tuple(all_nodes)
