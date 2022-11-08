@@ -175,3 +175,33 @@ class BST:
             if node.RightChild:
                 nodes_in_level.append(node.RightChild)
         return tuple(all_nodes)
+
+    def DeepAllNodes(self, type_order: int) -> tuple:
+        if not self.Root:
+            return ()
+        all_nodes = []
+        if type_order == 0:
+            self.__in_order(self.Root, all_nodes)
+        elif type_order == 1:
+            self.__post_order(self.Root, all_nodes)
+        elif type_order == 2:
+            self.__pre_order(self.Root, all_nodes)
+        return tuple(all_nodes)
+
+    def __in_order(self, node, all_nodes):
+        if node:
+            self.__in_order(node.LeftChild, all_nodes)
+            all_nodes.append(node)
+            self.__in_order(node.RightChild, all_nodes)
+
+    def __post_order(self, node, all_nodes):
+        if node:
+            self.__post_order(node.LeftChild, all_nodes)
+            self.__post_order(node.RightChild, all_nodes)
+            all_nodes.append(node)
+
+    def __pre_order(self, node, all_nodes):
+        if node:
+            all_nodes.append(node)
+            self.__pre_order(node.LeftChild, all_nodes)
+            self.__pre_order(node.RightChild, all_nodes)

@@ -559,5 +559,42 @@ class TestDeleteRoot(unittest.TestCase):
         self.assertIsNone(tree.Root)
 
 
+class TestDeepAllNodes(unittest.TestCase):
+
+    def setUp(self):
+        self.tree = BST(None)
+        self.tree.AddKeyValue(10, 1)
+        self.tree.AddKeyValue(8, 2)
+        self.tree.AddKeyValue(12, 3)
+        self.tree.AddKeyValue(5, 4)
+        self.tree.AddKeyValue(3, 4)
+        self.tree.AddKeyValue(1, 4)
+        self.tree.AddKeyValue(6, 4)
+        self.tree.AddKeyValue(16, 5)
+        self.tree.AddKeyValue(13, 6)
+        self.tree.AddKeyValue(18, 7)
+        self.tree.AddKeyValue(9, 8)
+        self.tree.AddKeyValue(11, 9)
+
+    def test_deep_all_nodes_in_order(self):
+        all_nodes = self.tree.DeepAllNodes(0)
+        self.assertIsInstance(all_nodes, tuple)
+        self.assertIsInstance(all_nodes[0], BSTNode)
+        all_nodes_keys = [node.NodeKey for node in all_nodes]
+        self.assertEqual(all_nodes_keys, sorted(all_nodes_keys))
+
+    def test_deep_all_nodes_post_order(self):
+        all_nodes = self.tree.DeepAllNodes(1)
+        self.assertIsInstance(all_nodes, tuple)
+        self.assertIsInstance(all_nodes[0], BSTNode)
+        self.assertEqual(all_nodes[-1].NodeKey, self.tree.Root.NodeKey)
+
+    def test_deep_all_nodes_pre_order(self):
+        all_nodes = self.tree.DeepAllNodes(2)
+        self.assertIsInstance(all_nodes, tuple)
+        self.assertIsInstance(all_nodes[0], BSTNode)
+        self.assertEqual(all_nodes[0].NodeKey, self.tree.Root.NodeKey)
+
+
 if __name__ == '__main__':
     unittest.main()
