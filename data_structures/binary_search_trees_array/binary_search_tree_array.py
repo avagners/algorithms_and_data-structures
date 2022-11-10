@@ -1,12 +1,11 @@
 class aBST:
 
     def __init__(self, depth: int):
-        # правильно рассчитайте размер массива для дерева глубины depth:
         tree_size: int = 2**(depth + 1) - 1
         self.Tree: list = [None] * tree_size  # массив ключей
 
     def __find_index(self, key: int, index: int) -> int:
-        if index > len(self.Tree):
+        if index >= len(self.Tree):
             return None
         if not self.Tree[index]:
             return -index
@@ -20,10 +19,19 @@ class aBST:
             return self.__find_index(key, index_rignt_child)
 
     def FindKeyIndex(self, key: int) -> int:
-        # ищем в массиве индекс ключа
         return self.__find_index(key, 0)
 
     def AddKey(self, key: int) -> int:
-        # добавляем ключ в массив
-        return -1
-        # индекс добавленного/существующего ключа или -1 если не удалось
+        """
+        Метод возвращает индекс добавленного/существующего ключа
+        или -1 если не удалось.
+        """
+        index = self.FindKeyIndex(key)
+        if index is None:
+            return -1
+        if index < 0 or not self.Tree[0]:
+            index *= -1
+            self.Tree[index] = key
+            return index
+        if index >= 0:
+            return index
