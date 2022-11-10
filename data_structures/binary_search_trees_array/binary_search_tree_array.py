@@ -33,5 +33,4 @@ class aBST:
             index *= -1
             self.Tree[index] = key
             return index
-        if index >= 0:
-            return index
+        return index
