@@ -74,6 +74,7 @@ class TestHeap(unittest.TestCase):
         self.assertEqual(self.heap.GetMax(), 1)
         self.assertEqual(self.heap.HeapArray, [None] * 7)
         self.assertEqual(self.heap.size, 0)
+        self.assertEqual(self.heap.GetMax(), -1)  # если массив пуст
 
 
 if __name__ == '__main__':
