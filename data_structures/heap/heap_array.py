@@ -58,7 +58,7 @@ class Heap:
             max_index = left_child_index
         elif not left_child and right_child:
             max_index = right_child_index
-        else:
+        elif left_child and right_child:
             max_index = (right_child_index if
                          right_child > left_child else
                          left_child_index)
@@ -73,5 +73,4 @@ class Heap:
         if push_up:
             self.__push_up(array, index)
             return
-        else:
-            self.__push_down(array, index)
+        self.__push_down(array, index)
