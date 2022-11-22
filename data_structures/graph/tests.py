@@ -70,6 +70,19 @@ class TestSimpleGraph(unittest.TestCase):
                 else:
                     self.assertEqual(self.graph.m_adjacency[i][j], 0)
 
+    def test_depth_first_search(self):
+        self.graph.AddVertex(3)
+        self.graph.AddEdge(1, 2)
+        self.assertListEqual(
+            self.graph.DepthFirstSearch(0, 2), self.graph.vertex
+        )
+        self.assertListEqual(
+            self.graph.DepthFirstSearch(1, 2), self.graph.vertex[1:]
+        )
+        self.assertListEqual(
+            self.graph.DepthFirstSearch(0, 1), self.graph.vertex[:2]
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

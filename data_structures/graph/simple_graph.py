@@ -1,7 +1,11 @@
+from typing import List
+
+
 class Vertex:
 
     def __init__(self, val: int):
         self.Value: int = val
+        self.Hit = False
 
 
 class SimpleGraph:
@@ -42,3 +46,36 @@ class SimpleGraph:
         # удаление ребра между вершинами v1 и v2
         self.m_adjacency[v1][v2] = 0
         self.m_adjacency[v2][v1] = 0
+
+    def DepthFirstSearch(self, VFrom: int, VTo: int) -> List[Vertex]:
+        # получение списка узлов -- путь из VFrom в VTo
+        assert VTo < self.max_vertex, 'Индекс должен быть меньше кол-ва вершин'
+        for vertex in self.vertex:
+            vertex.Hit = False
+        stack = [self.vertex[VFrom]]
+        return self.__find_path(VFrom, VTo, stack)
+
+    def __find_path(self, current_index: int, target_index: int,
+                    stack: List[Vertex]):
+        self.vertex[current_index].Hit = True
+        # если есть ребро между текущей вершиной и целевой,
+        # то добавляем в стек целевую вершину и возвращаем стек
+        if self.m_adjacency[current_index][target_index] == 1:
+            stack.append(self.vertex[target_index])
+            return stack
+        # проходим циклом по рёбрам текущей вершины
+        for index, is_edge in enumerate(self.m_adjacency[current_index]):
+            # если вершина смежная (т.е. есть связь) и её еще не рассматривали,
+            # то добавляем в стек и проверяем данную вершину
+            if is_edge == 1 and not self.vertex[index].Hit:
+                stack.append(self.vertex[index])
+                return self.__find_path(index, target_index, stack)
+        # если непосещенных смежных вершин не осталось,
+        # то удаляем из стека верхний элемент
+        stack.pop()
+        if not stack:
+            return []
+        # перепроверяем элементы стека на наличие
+        # непосещенных смежных вершин
+        current_index = self.vertex.index(stack[-1])
+        return self.__find_path(current_index, target_index, stack)
