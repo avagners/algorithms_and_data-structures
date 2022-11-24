@@ -49,6 +49,7 @@ class SimpleGraph:
 
     def DepthFirstSearch(self, VFrom: int, VTo: int) -> List[Vertex]:
         # получение списка узлов -- путь из VFrom в VTo
+        # поиск в глубину
         assert VTo < self.max_vertex, 'Индекс должен быть меньше кол-ва вершин'
         for vertex in self.vertex:
             vertex.Hit = False
@@ -79,3 +80,26 @@ class SimpleGraph:
         # непосещенных смежных вершин
         current_index = self.vertex.index(stack[-1])
         return self.__find_path(current_index, target_index, stack)
+
+    def BreadthFirstSearch(self, VFrom: int, VTo: int) -> List[Vertex]:
+        # получение списка узлов -- путь из VFrom в VTo
+        # поиск в ширину
+        for vertex in self.vertex:
+            vertex.Hit = False
+        queue = [(VFrom, [self.vertex[VFrom]])]
+        while queue:
+            current_index, path = queue.pop(0)
+            current_vertex = self.vertex[current_index]
+            current_vertex.Hit = True  # помечаем вершуну как посещенную
+            # проверяем все смежные непосещенные вершины
+            for check_index in self.__get_adjacent_vertices(current_index):
+                if check_index == VTo:
+                    path.append(self.vertex[check_index])
+                    return path
+                queue.append((check_index, path + [self.vertex[check_index]]))
+        return []
+
+    def __get_adjacent_vertices(self, index) -> List[int]:
+        # метод возвращает смежные вершины, которые еще не посещали
+        return [i for i, is_edge in enumerate(self.m_adjacency[index])
+                if (is_edge == 1 and not self.vertex[i].Hit)]

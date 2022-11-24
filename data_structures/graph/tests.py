@@ -83,6 +83,67 @@ class TestSimpleGraph(unittest.TestCase):
             self.graph.DepthFirstSearch(0, 1), self.graph.vertex[:2]
         )
 
+    def test_breadth_first_search(self):
+        self.graph.AddVertex(3)
+        self.graph.AddEdge(1, 2)
+        self.assertListEqual(
+            self.graph.BreadthFirstSearch(0, 2), self.graph.vertex
+        )
+        self.assertListEqual(
+            self.graph.BreadthFirstSearch(1, 2), self.graph.vertex[1:]
+        )
+        self.assertListEqual(
+            self.graph.BreadthFirstSearch(0, 1), self.graph.vertex[:2]
+        )
+
+
+class TestDFSandBDF(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.graph = SimpleGraph(11)
+        self.graph.AddVertex(1)
+        self.graph.AddVertex(2)
+        self.graph.AddVertex(3)
+        self.graph.AddVertex(4)
+        self.graph.AddVertex(5)
+        self.graph.AddVertex(6)
+        self.graph.AddVertex(7)
+        self.graph.AddVertex(8)
+        self.graph.AddVertex(9)
+        self.graph.AddVertex(10)
+        self.graph.AddVertex(11)
+        self.graph.AddEdge(0, 1)
+        self.graph.AddEdge(1, 2)
+        self.graph.AddEdge(0, 3)
+        self.graph.AddEdge(1, 4)
+        self.graph.AddEdge(4, 5)
+        self.graph.AddEdge(5, 6)
+        self.graph.AddEdge(2, 6)
+        self.graph.AddEdge(2, 7)
+        self.graph.AddEdge(3, 8)
+        self.graph.AddEdge(3, 9)
+        self.graph.AddEdge(5, 9)
+
+    def test_1(self):
+        path_BFS = self.graph.BreadthFirstSearch(5, 7)
+        self.assertIsInstance(path_BFS, list)
+        self.assertEqual(len(path_BFS), 4)
+        path_DFS = self.graph.DepthFirstSearch(5, 7)
+        self.assertIsInstance(path_DFS, list)
+        self.assertEqual(len(path_DFS), 5)
+        # проверяем, что алгоритм BFS нашел более короткий путь
+        self.assertGreater(len(path_DFS), len(path_BFS))
+
+    def test_2(self):
+        path_BFS = self.graph.BreadthFirstSearch(8, 6)
+        path_DFS = self.graph.DepthFirstSearch(8, 6)
+        self.assertIsInstance(path_BFS, list)
+        self.assertEqual(len(path_BFS), 5)
+        self.assertIsInstance(path_DFS, list)
+        self.assertEqual(len(path_DFS), 6)
+        # проверяем, что алгоритм BFS нашел более короткий путь
+        self.assertGreater(len(path_DFS), len(path_BFS))
+
 
 if __name__ == '__main__':
     unittest.main()
