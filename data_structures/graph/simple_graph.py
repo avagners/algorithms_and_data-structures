@@ -106,3 +106,19 @@ class SimpleGraph:
         # метод возвращает индексы смежных вершин
         return [index for index, is_edge in enumerate(self.m_adjacency[index])
                 if is_edge == 1]
+
+    def WeakVertices(self):
+        # возвращает список узлов вне треугольников
+        weak_vertices = set()
+        for index, vertex in enumerate(self.vertex):
+            adjacent_vertices = self.__get_adjacent_vertices(index)
+            if self.__is_weak_vertices(adjacent_vertices):
+                weak_vertices.add(vertex)
+        return list(weak_vertices)
+
+    def __is_weak_vertices(self, adjacent_vertices):
+        for adjacent in adjacent_vertices:
+            if [i for i in adjacent_vertices if i != adjacent and
+               self.m_adjacency[adjacent][i] == 1]:
+                return False
+            return True

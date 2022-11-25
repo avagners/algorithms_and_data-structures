@@ -96,6 +96,20 @@ class TestSimpleGraph(unittest.TestCase):
             self.graph.BreadthFirstSearch(0, 1), self.graph.vertex[:2]
         )
 
+    def test_weak_vertices(self):
+        self.graph.AddVertex(3)
+        self.graph.AddEdge(0, 2)
+        self.assertTrue(self.graph.WeakVertices())
+        self.assertIsInstance(self.graph.WeakVertices(), list)
+        self.assertIsInstance(self.graph.WeakVertices()[0], Vertex)
+        self.assertEqual(
+            len(self.graph.WeakVertices()), len(self.graph.vertex)
+        )
+        # добавляем связь до треугольника
+        self.graph.AddEdge(1, 2)
+        # уязвимых вершин не обнаружено
+        self.assertFalse(self.graph.WeakVertices())
+
 
 class TestDFSandBDF(unittest.TestCase):
 
@@ -123,6 +137,7 @@ class TestDFSandBDF(unittest.TestCase):
         self.graph.AddEdge(3, 8)
         self.graph.AddEdge(3, 9)
         self.graph.AddEdge(5, 9)
+        self.graph.AddEdge(1, 3)
 
     def test_1(self):
         path_BFS = self.graph.BreadthFirstSearch(5, 7)
