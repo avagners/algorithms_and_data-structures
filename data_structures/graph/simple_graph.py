@@ -57,20 +57,20 @@ class SimpleGraph:
         return self.__find_path(VFrom, VTo, stack)
 
     def __find_path(self, current_index: int, target_index: int,
-                    stack: List[Vertex]):
+                    stack: List[Vertex]) -> List[Vertex]:
         self.vertex[current_index].Hit = True
         # если есть ребро между текущей вершиной и целевой,
         # то добавляем в стек целевую вершину и возвращаем стек
-        if self.m_adjacency[current_index][target_index] == 1:
+        if self.IsEdge(current_index, target_index):
             stack.append(self.vertex[target_index])
             return stack
         # проходим циклом по рёбрам текущей вершины
-        for index, is_edge in enumerate(self.m_adjacency[current_index]):
-            # если вершина смежная (т.е. есть связь) и её еще не рассматривали,
-            # то добавляем в стек и проверяем данную вершину
-            if is_edge == 1 and not self.vertex[index].Hit:
-                stack.append(self.vertex[index])
-                return self.__find_path(index, target_index, stack)
+        for index in self.__get_adjacent_vertices(current_index):
+            # если вершину посещали, то проверяем следующую
+            if self.vertex[index].Hit:
+                continue
+            stack.append(self.vertex[index])
+            return self.__find_path(index, target_index, stack)
         # если непосещенных смежных вершин не осталось,
         # то удаляем из стека верхний элемент
         stack.pop()
@@ -90,9 +90,12 @@ class SimpleGraph:
         while queue:
             current_index, path = queue.pop(0)
             current_vertex = self.vertex[current_index]
-            current_vertex.Hit = True  # помечаем вершуну как посещенную
+            current_vertex.Hit = True  # помечаем вершину как посещенную
             # проверяем все смежные непосещенные вершины
             for check_index in self.__get_adjacent_vertices(current_index):
+                # если вершину посещали, то проверяем следующую
+                if self.vertex[check_index].Hit:
+                    continue
                 if check_index == VTo:
                     path.append(self.vertex[check_index])
                     return path
@@ -100,6 +103,6 @@ class SimpleGraph:
         return []
 
     def __get_adjacent_vertices(self, index) -> List[int]:
-        # метод возвращает смежные вершины, которые еще не посещали
-        return [i for i, is_edge in enumerate(self.m_adjacency[index])
-                if (is_edge == 1 and not self.vertex[i].Hit)]
+        # метод возвращает индексы смежных вершин
+        return [index for index, is_edge in enumerate(self.m_adjacency[index])
+                if is_edge == 1]
